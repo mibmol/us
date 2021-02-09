@@ -1,0 +1,26 @@
+{
+	"files.watcherExclude": {
+		".git/**": true,
+		"node_modules/**": true,
+	},
+	"files.exclude": {
+		"node_modules/": true,
+		".vscode/": false,
+		".build/**": true,
+		".git/": true,
+		"dist/**": true
+	},
+	"search.exclude": {
+		"node_modules/": true,
+		".build/**": true,
+		"dist/**": true,
+		".git/**": true,
+		"out/**": true
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.detectIndentation": false,
+		"editor.tabSize": 3,
+		"editor.insertSpaces": false
+	}
+}
