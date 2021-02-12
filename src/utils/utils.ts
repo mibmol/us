@@ -38,7 +38,6 @@ export function randomString(length: number = 6): string {
 	return result;
 }
 
-
 export function sleep(ms: number = 100): Promise<any> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -53,4 +52,8 @@ export async function to<T>(promise: Promise<T>): Promise<[T, Error]> {
 	} catch (error) {
 		return [null, error];
 	}
+}
+
+export function nowSeconds(): number {
+	return Math.floor(Date.now() / 1000);
 }

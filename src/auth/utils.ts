@@ -1,6 +1,7 @@
 import { User } from 'src/models/User';
 import { v4 as uuidv4 } from 'uuid';
 import { sign } from 'jsonwebtoken';
+import { nowSeconds } from 'src/utils/utils';
 
 // JWTClaims jc
 export type JWTClaims = {
@@ -16,6 +17,7 @@ export type JWTClaims = {
 export function createJWT(user: User, config: JWT): string {
 	let claims: JWTClaims = {
 		jti: uuidv4(),
+		iat: nowSeconds(),
 		sub: user.username,
 		iss: 'us',
 	};
