@@ -1,20 +1,20 @@
-type Config = {
+export type Config = {
 	app: App;
 	jwt: JWT;
 };
 
-type App = {
+export type App = {
 	development: boolean;
 	host: string;
 	port: number;
 };
 
-type JWT = {
+export type JWT = {
 	secret: string;
 	expiration: number; // hours
 };
 
-type Databases = {
+export type Databases = {
 	postgresql: {
 		host: string;
 		port: number;

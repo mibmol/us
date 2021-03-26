@@ -2,21 +2,23 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import configurations from './configuration';
+import { getDBs, loadAppConfigs } from './configs';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { MusicModule } from './music/music.module';
 import { TorrentModule } from './torrent/torrent.module';
-
+import { User, Torrent } from './models';
 
 @Module({
 	imports: [
-		ConfigModule.forRoot({ load: [configurations] }),
-		TypeOrmModule.forRoot(),
+		ConfigModule.forRoot({ load: [loadAppConfigs] }),
+		TypeOrmModule.forRoot({
+			type: 'postgres',
+			...getDBs().postgresql,
+			entities: [User, Torrent],
+		}),
 		UserModule,
 		AuthModule,
-		MusicModule,
 		TorrentModule,
 	],
 	controllers: [AppController],

@@ -1,41 +1,53 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryColumn } from 'typeorm';
 import { VARCHAR } from './constants';
+import { Torrent } from './Torrent';
 
 @Entity({ name: 'users' })
 export class User {
-	@PrimaryGeneratedColumn()
-	id: number;
+	@PrimaryColumn({ type: 'uuid' })
+	id: string;
 
-	@Column({ length: VARCHAR.md })
+	@Column({ length: VARCHAR.md, name: 'display_name' })
 	displayName: string;
 
 	@Column({ length: VARCHAR.sm, unique: true, nullable: false })
+	@Index('users_username_index', { unique: true })
 	username: string;
 
-	@Column({ length: VARCHAR.lg, unique: true, nullable: false })
+	@Column({ length: VARCHAR.lg, nullable: false })
+	@Index('users_email_index', { unique: true })
 	email: string;
 
 	@Column({ length: VARCHAR.lg })
-	private password: string;
+	private passwordHash: string;
 
 	@Column({ type: 'boolean', default: false })
 	verified: boolean;
 
-	@Column({ type: 'timestamp with time zone' })
-	dateJoined: string;
+	@Column({ default: false, name: 'is_staff' })
+	isStaff: boolean;
 
-	@Column({ default: true })
+	@Column({ type: 'timestamptz', name: 'created_at' })
+	createdAt: string;
+
+	@Column({ default: false })
+	deleted: boolean;
+
+	@Column({ default: true, name: 'is_active' })
 	isActive: boolean;
 
+	@OneToMany(() => Torrent, (torrent) => torrent.uploader)
+	torrents: Torrent[];
+
 	getPasswordHash(): string {
-		return this.password;
+		return this.passwordHash;
 	}
 
 	setPasswordHash(password: string) {
-		this.password = password;
+		this.passwordHash = password;
 	}
 
 	comparePassword(password: string): boolean {
-		return this.password === password;
+		return this.passwordHash === password;
 	}
 }
