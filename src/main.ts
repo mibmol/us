@@ -7,6 +7,7 @@ const fastifyAdpter = new FastifyAdapter();
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdpter);
-	await app.listen(3000);
+	app.enableCors({ maxAge: 9999999 });
+	await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

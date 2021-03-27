@@ -4,16 +4,20 @@ import { Reply } from './../utils/fastify';
 import { UserLogin } from './dto';
 import { createJWT } from './utils';
 import { ConfigService } from '@nestjs/config';
+import { JWT } from 'src/configsTypes';
 
 @Controller('auth')
-export default class AuthController {
+@UsePipes(ValidationPipe)
+export class AuthController {
 	private JWTConfig: JWT;
-	constructor(private readonly authService: AuthService, private readonly config: ConfigService) {
+	constructor(
+		private readonly authService: AuthService,
+		private readonly config: ConfigService,
+	) {
 		this.JWTConfig = this.config.get<JWT>('jwt');
 	}
 
-	@Post('local')
-	@UsePipes(ValidationPipe)
+	@Post('basic')
 	async local(@Body() creds: UserLogin, @Res() res: Reply) {
 		let user = await this.authService.validateCreds(creds.username, creds.password);
 		if (!user) {
@@ -21,4 +25,5 @@ export default class AuthController {
 		}
 		return res.send({ token: createJWT(user, this.JWTConfig) });
 	}
+
 }

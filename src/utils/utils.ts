@@ -19,12 +19,22 @@ export function createChunks(array: any[] | string, chunkSize: number): any[] {
 	return chunks;
 }
 
-export function randomInt(max: number): number {
-	let _max = max;
-	if (_max > Number.MAX_SAFE_INTEGER) {
-		_max = Number.MAX_SAFE_INTEGER;
+export function randomInt(opt: { min?: number; max?: number }): number {
+	let { min, max } = opt;
+
+	if (!min || min < 0) {
+		min = 0;
 	}
-	return Math.floor(Math.random() * _max);
+	if (min > max) {
+		let temp = min;
+		min = max;
+		max = temp;
+	}
+	if (!max || max > Number.MAX_SAFE_INTEGER) {
+		max = Number.MAX_SAFE_INTEGER;
+	}
+
+	return min + Math.floor(Math.random() * (max - min));
 }
 
 export function randomString(length: number = 6): string {
@@ -32,7 +42,7 @@ export function randomString(length: number = 6): string {
 	if (count <= 0) return '';
 	let result = '';
 	while (count-- > 0) {
-		let index = randomInt(ALPHANUMERIC.length);
+		let index = randomInt({ max: ALPHANUMERIC.length });
 		result += ALPHANUMERIC.charAt(index);
 	}
 	return result;

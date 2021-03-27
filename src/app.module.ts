@@ -8,6 +8,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { TorrentModule } from './torrent/torrent.module';
 import { User, Torrent } from './models';
+import { Artist, ArtistGenre, Genre, Playlist, Release, Track } from './models/music';
+import { Media } from './models/Media';
+import { AppLanguages, Country } from './models/i18n';
+// import { AdminModule } from './admin/admin.module';
 
 @Module({
 	imports: [
@@ -15,11 +19,24 @@ import { User, Torrent } from './models';
 		TypeOrmModule.forRoot({
 			type: 'postgres',
 			...getDBs().postgresql,
-			entities: [User, Torrent],
+			entities: [
+				User,
+				Torrent,
+				Track,
+				Artist,
+				ArtistGenre,
+				Genre,
+				Release,
+				Playlist,
+				Media,
+				Country,
+				AppLanguages,
+			],
 		}),
 		UserModule,
 		AuthModule,
 		TorrentModule,
+		// AdminModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

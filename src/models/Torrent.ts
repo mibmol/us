@@ -19,6 +19,6 @@ export class Torrent {
 	@Column({ default: false })
 	deleted: boolean;
 
-	@Column({ type: 'timestamptz', name: 'created_at' })
+	@Column({ type: 'timestamptz', name: 'created_at', default: () => "timezone('utc', now())" })
 	createdAt: string;
 }

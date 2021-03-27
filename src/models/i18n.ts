@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { VARCHAR } from './constants';
 import { Artist } from './music';
 
+@Entity()
 export class Country {
 	@PrimaryColumn({ type: 'smallint' })
 	id: number;
@@ -46,7 +47,7 @@ export class AppLanguages {
 	name: string;
 
 	@Column({ length: VARCHAR.lg, name: 'native_name' })
-	nativeName;
+	nativeName: string;
 
 	@Column({ length: 4 })
 	code2: string;
